@@ -5,16 +5,16 @@ import com.brewble.pocketcpmplus.model.project.Project
 /**
  * Created by ashkanabedian on 2018-02-18.
  */
-class Result<T> private constructor(val status: Status, val payload: T){
+class Result<O> private constructor(val status: Status, val payload: O){
     enum class Status{
         SUCCESS, NO_OP
     }
 
     companion object {
-        fun <T> success(payload: T): Result<T>{
+        fun <O> success(payload: O): Result<O>{
             return Result(Status.SUCCESS, payload)
         }
-        fun <T> noOp(): Result<T?>{
+        fun <O> noOp(): Result<O?>{
             return Result(Status.NO_OP, null)
         }
     }

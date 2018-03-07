@@ -13,7 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.brewble.pocketcpmplus.R
 import com.brewble.pocketcpmplus.model.ListItem
-import com.brewble.pocketcpmplus.model.ProjectAddEvent
+import com.brewble.pocketcpmplus.model.project.ProjectAddEvent
 import com.brewble.pocketcpmplus.model.project.Project
 import com.brewble.pocketcpmplus.view.ListView
 import com.brewble.pocketcpmplus.viewmodel.ProjectListViewModel

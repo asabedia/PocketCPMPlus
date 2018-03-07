@@ -1,6 +1,6 @@
-package com.brewble.pocketcpmplus.model
+package com.brewble.pocketcpmplus.model.project
 
-import com.brewble.pocketcpmplus.model.project.Project
+import com.brewble.pocketcpmplus.model.Event
 
 /**
  * Created by ashkanabedian on 2018-03-03.

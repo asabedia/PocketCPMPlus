@@ -10,7 +10,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.brewble.pocketcpmplus.model.ProjectAddEvent
+import com.brewble.pocketcpmplus.model.project.ProjectAddEvent
 import com.brewble.pocketcpmplus.model.Result
 import com.brewble.pocketcpmplus.model.project.Project
 import com.brewble.pocketcpmplus.view.ProjectAddView
