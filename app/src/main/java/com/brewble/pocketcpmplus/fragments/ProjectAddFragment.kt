@@ -1,4 +1,4 @@
-package com.brewble.pocketcpmplus.controllers
+package com.brewble.pocketcpmplus.fragments
 
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleOwner
