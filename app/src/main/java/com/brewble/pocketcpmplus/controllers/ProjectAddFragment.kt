@@ -22,11 +22,11 @@ class ProjectAddFragment: Fragment(), LifecycleOwner {
     private lateinit var lifecycleRegistry: LifecycleRegistry
     private lateinit var view: ProjectAddView
 
-    private val observer = Observer<Result<Project>>{
-        Log.d("${this.javaClass.name}", "in observer")
+    private val observer = Observer<Result<Project?>>{
+        Log.d(this.javaClass.name, "in observer")
         when(it?.status){
             Result.Status.SUCCESS -> {
-                EventBus.getDefault().post(ProjectAddEvent(it.payload))
+                EventBus.getDefault().post(ProjectAddEvent(it.payload!!))
             }
         }
     }
@@ -39,7 +39,7 @@ class ProjectAddFragment: Fragment(), LifecycleOwner {
 
         view = ProjectAddView(layoutInflater, object: ProjectAddView.Listener{
             override fun onOk(project: Project) {
-                viewModel.projectData.postValue(project)
+                viewModel.projectRequest.postValue(project)
             }
 
             override fun onCancel() {

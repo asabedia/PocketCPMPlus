@@ -1,5 +1,7 @@
 package com.brewble.pocketcpmplus.model
 
+import com.brewble.pocketcpmplus.model.project.Project
+
 /**
  * Created by ashkanabedian on 2018-02-18.
  */

@@ -30,7 +30,7 @@ class ProjectListFragment: Fragment(), LifecycleOwner {
     private lateinit var viewModel: ProjectListViewModel
 
     private val observer = Observer<List<Project>>{
-        Log.d("${this.javaClass.name}", "new project added")
+        Log.d(this.javaClass.name, "new project added")
         if(it!!.isNotEmpty()){
             view.updateList(it)
         }
@@ -64,7 +64,7 @@ class ProjectListFragment: Fragment(), LifecycleOwner {
     }
 
     private fun launchAddProjFragment() {
-        Log.d("${this.javaClass.name}", "add project Selected")
+        Log.d(this.javaClass.name, "add project Selected")
         if(lifecycleRegistry.currentState.isAtLeast(Lifecycle.State.STARTED)){
             activity
                     .supportFragmentManager
@@ -88,8 +88,8 @@ class ProjectListFragment: Fragment(), LifecycleOwner {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         lifecycleRegistry.markState(Lifecycle.State.CREATED)
-        viewModel.displayList.removeObserver(observer)
-        viewModel.displayList.observe(this, observer)
+        viewModel.projectListApproved.removeObserver(observer)
+        viewModel.projectListApproved.observe(this, observer)
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -102,15 +102,15 @@ class ProjectListFragment: Fragment(), LifecycleOwner {
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     fun onMessageEvent(project: ProjectAddEvent) {
-        Log.d("${this.javaClass.name}", "projectEvent received")
-        if(viewModel.displayList.value != null){
-            var list = ArrayList<Project>(viewModel.displayList.value)
+        Log.d(this.javaClass.name, "projectEvent received")
+        if(viewModel.projectListApproved.value != null){
+            val list = ArrayList<Project>(viewModel.projectListApproved.value)
             list.add(project.getResult())
-            viewModel.projectList.postValue(list)
+            viewModel.projectListRequest.postValue(list)
         }else{
             val list =  ArrayList<Project>()
             list.add(project.getResult())
-            viewModel.projectList.postValue(list)
+            viewModel.projectListRequest.postValue(list)
         }
     }
 }
