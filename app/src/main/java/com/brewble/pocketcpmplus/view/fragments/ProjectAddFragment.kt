@@ -1,4 +1,4 @@
-package com.brewble.pocketcpmplus.fragments
+package com.brewble.pocketcpmplus.view.fragments
 
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleOwner
@@ -10,8 +10,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.brewble.pocketcpmplus.model.project.ProjectAddEvent
 import com.brewble.pocketcpmplus.model.Result
+import com.brewble.pocketcpmplus.model.event.Event
 import com.brewble.pocketcpmplus.model.project.Project
 import com.brewble.pocketcpmplus.view.ProjectAddView
 import com.brewble.pocketcpmplus.viewmodel.ProjectAddViewModel
@@ -26,7 +26,7 @@ class ProjectAddFragment: Fragment(), LifecycleOwner {
         Log.d(this.javaClass.name, "in observer")
         when(it?.status){
             Result.Status.SUCCESS -> {
-                EventBus.getDefault().post(ProjectAddEvent(it.payload!!))
+                EventBus.getDefault().post(Event.Add(it.payload!!))
             }
         }
     }

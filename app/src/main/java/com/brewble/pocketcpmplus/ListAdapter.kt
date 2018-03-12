@@ -6,22 +6,32 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.brewble.pocketcpmplus.databinding.ListItemLayoutBinding
 import com.brewble.pocketcpmplus.model.ListItem
+import com.brewble.pocketcpmplus.view.ListView
 
 
-class ListAdapter(listener: Listener): RecyclerView.Adapter<ListItemViewHolder>() {
+class ListAdapter(val listener: ListView.Listener) : RecyclerView.Adapter<ListItemViewHolder>(){
 
     private var itemList: List<ListItem>
-    private var eventHandler: EventHandler
 
     init {
-        eventHandler = EventHandler(listener)
         itemList = ArrayList()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ListItemViewHolder {
-        val layoutInflater = LayoutInflater.from(parent!!.context)
-        val itemView: ListItemLayoutBinding = DataBindingUtil.inflate(layoutInflater, R.layout.list_item_layout, parent,false)
-        return ListItemViewHolder(itemView)
+        val context = parent!!.context
+        val layoutInflater = LayoutInflater.from(context)
+        val itemView: ListItemLayoutBinding = DataBindingUtil.inflate(layoutInflater, R.layout.list_item_layout, parent, false)
+        return ListItemViewHolder(itemView, context, object: ListItemViewHolder.Listener{
+            override fun onDelete(selectedPosition: Int) {
+                listener.onDelete(itemList[selectedPosition])
+            }
+            override fun onSelect(selectedPosition: Int) {
+                listener.onSelect(itemList[selectedPosition])
+            }
+            override fun onEdit(selectedPosition: Int) {
+                listener.onEdit(itemList[selectedPosition])
+            }
+        })
     }
 
     override fun getItemCount(): Int {
@@ -33,21 +43,8 @@ class ListAdapter(listener: Listener): RecyclerView.Adapter<ListItemViewHolder>(
         holder!!.bind(listItem)
     }
 
-    fun setItems(list: List<ListItem>){
+    fun setItems(list: List<ListItem>) {
         itemList = list
         notifyDataSetChanged()
     }
-
-    interface Listener{
-        fun onEdit(listItem: ListItem)
-        fun onSelect(listItem: ListItem)
-        fun onDelete(listItem: ListItem)
-    }
-
-    class EventHandler(val listener: Listener){
-        fun onEdit(listItem: ListItem) = listener.onEdit(listItem)
-        fun onSelect(listItem: ListItem) = listener.onSelect(listItem)
-        fun onDelete(listItem: ListItem) = listener.onDelete(listItem)
-    }
-
 }

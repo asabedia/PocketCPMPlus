@@ -1,4 +1,4 @@
-package com.brewble.pocketcpmplus.fragments
+package com.brewble.pocketcpmplus.view.fragments
 
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleOwner
@@ -11,9 +11,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
+import android.widget.Toast
 import com.brewble.pocketcpmplus.R
 import com.brewble.pocketcpmplus.model.ListItem
-import com.brewble.pocketcpmplus.model.project.ProjectAddEvent
+import com.brewble.pocketcpmplus.model.event.Event
+import com.brewble.pocketcpmplus.model.event.EventType
 import com.brewble.pocketcpmplus.model.project.Project
 import com.brewble.pocketcpmplus.view.ListView
 import com.brewble.pocketcpmplus.viewmodel.ProjectListViewModel
@@ -22,16 +25,16 @@ import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
 
-class ProjectListFragment: Fragment(), LifecycleOwner {
+class ProjectListFragment : Fragment(), LifecycleOwner {
 
     private lateinit var lifecycleRegistry: LifecycleRegistry
     private lateinit var view: ListView
 
     private lateinit var viewModel: ProjectListViewModel
 
-    private val observer = Observer<List<Project>>{
+    private val observer = Observer<List<Project>> {
         Log.d(this.javaClass.name, "new project added")
-        if(it!!.isNotEmpty()){
+        if (it!!.isNotEmpty()) {
             view.updateList(it)
         }
     }
@@ -45,27 +48,28 @@ class ProjectListFragment: Fragment(), LifecycleOwner {
         viewModel = ProjectListViewModel.create(this)
 
         view = ListView(layoutInflater, LinearLayoutManager(context), object : ListView.Listener {
-            override fun onDelete(listItem: ListItem) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-
-            override fun onEdit(listItem: ListItem) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-
-            override fun onSelect(listItem: ListItem) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-
             override fun onAdd() {
                 launchAddProjFragment()
             }
+
+            override fun onEdit(listItem: ListItem) {
+                Toast.makeText(context, "Edit: ${listItem.name}", Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onDelete(listItem: ListItem) {
+                Toast.makeText(context, "Delete: ${listItem.name}", Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onSelect(listItem: ListItem) {
+                Toast.makeText(context, "Selected: ${listItem.name}", Toast.LENGTH_SHORT).show()
+            }
+
         })
     }
 
     private fun launchAddProjFragment() {
         Log.d(this.javaClass.name, "add project Selected")
-        if(lifecycleRegistry.currentState.isAtLeast(Lifecycle.State.STARTED)){
+        if (lifecycleRegistry.currentState.isAtLeast(Lifecycle.State.STARTED)) {
             activity
                     .supportFragmentManager
                     .beginTransaction()
@@ -101,16 +105,27 @@ class ProjectListFragment: Fragment(), LifecycleOwner {
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    fun onMessageEvent(project: ProjectAddEvent) {
+    fun onMessageEvent(event: Event<Project>) {
         Log.d(this.javaClass.name, "projectEvent received")
-        if(viewModel.projectListApproved.value != null){
-            val list = ArrayList<Project>(viewModel.projectListApproved.value)
-            list.add(project.getResult())
-            viewModel.projectListRequest.postValue(list)
-        }else{
-            val list =  ArrayList<Project>()
-            list.add(project.getResult())
-            viewModel.projectListRequest.postValue(list)
+        when (event.eventType) {
+            EventType.Add -> {
+                Log.d(this.javaClass.name, "add event")
+                if (viewModel.projectListApproved.value != null) {
+                    val list = ArrayList<Project>(viewModel.projectListApproved.value)
+                    list.add(event.payload)
+                    viewModel.projectListRequest.postValue(list)
+                } else {
+                    val list = ArrayList<Project>()
+                    list.add(event.payload)
+                    viewModel.projectListRequest.postValue(list)
+                }
+            }
+            EventType.Delete -> {
+                Log.d(this.javaClass.name, "delete event")
+                val list = ArrayList<Project>(viewModel.projectListApproved.value)
+                list.remove(event.payload)
+                viewModel.projectListRequest.postValue(list)
+            }
         }
     }
 }

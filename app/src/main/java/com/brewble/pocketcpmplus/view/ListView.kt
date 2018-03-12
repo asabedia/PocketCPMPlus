@@ -27,17 +27,7 @@ class ListView(inflater: LayoutInflater, layoutManager: LinearLayoutManager, lis
         view = inflate(inflater, R.layout.list_layout, null, false)
         eventHandler = EventHandler(listener)
         view.eventHandler = eventHandler
-        adapter = ListAdapter(object: ListAdapter.Listener{
-            override fun onDelete(listItem: ListItem) {
-                listener.onDelete(listItem)
-            }
-            override fun onEdit(listItem: ListItem) {
-                listener.onEdit(listItem)
-            }
-            override fun onSelect(listItem: ListItem) {
-                listener.onSelect(listItem)
-            }
-        })
+        adapter = ListAdapter(listener)
         rootView = view.root
         recyclerView = view.recyclerView
         recyclerView.adapter = adapter
@@ -50,8 +40,8 @@ class ListView(inflater: LayoutInflater, layoutManager: LinearLayoutManager, lis
 
     interface Listener{
         fun onAdd()
-        fun onDelete(listItem: ListItem)
         fun onEdit(listItem: ListItem)
+        fun onDelete(listItem: ListItem)
         fun onSelect(listItem: ListItem)
     }
 

@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">PocketCpmPlus</string>
     <string name="card_title">Title</string>
+    <string name="delete_list_item">Delete</string>
+    <string name="edit">Edit</string>
 </resources>

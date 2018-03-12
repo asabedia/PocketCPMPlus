@@ -1,6 +1,6 @@
 package com.brewble.pocketcpmplus.model.task
 
 import com.brewble.pocketcpmplus.model.ListItem
-import java.util.Date
+import java.util.*
 
-class Task(override val name: String, val startDate: Date, val endateDate: Date): ListItem()
+data class Task(override val name: String, override val id: UUID = UUID.randomUUID(), val startDate: String, val endDate: Date): ListItem()

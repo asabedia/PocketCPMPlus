@@ -5,9 +5,7 @@ import com.brewble.pocketcpmplus.model.task.Task
 import java.time.LocalDate
 import java.util.*
 
-class Project(val startDate: String, override val name: String): ListItem(){
-    val id: UUID = UUID.randomUUID()
-    lateinit var taskList: LinkedList<Task>
+data class Project(val startDate: String, override val name: String, override val id: UUID = UUID.randomUUID()): ListItem(){
     fun isValid(): Boolean {
         return !name.isEmpty()
     }
