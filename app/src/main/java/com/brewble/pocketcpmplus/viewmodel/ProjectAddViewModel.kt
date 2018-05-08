@@ -1,14 +1,15 @@
 package com.brewble.pocketcpmplus.viewmodel
 
 import android.arch.lifecycle.*
+import android.databinding.ObservableField
 import android.support.v4.app.Fragment
 import com.brewble.pocketcpmplus.model.project.Project
 import com.brewble.pocketcpmplus.model.Result
 
 class ProjectAddViewModel: ViewModel() {
-    val projectRequest: MutableLiveData<Project> = MutableLiveData()
+    val projectAddRequest: MutableLiveData<Project> = MutableLiveData()
 
-    val projectResult = Transformations.map(projectRequest) {
+    val projectResult = Transformations.map(projectAddRequest) {
         if (it.isValid()) {
             return@map Result.success(it)
         } else {

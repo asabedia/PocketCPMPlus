@@ -8,36 +8,62 @@
             name="model"
             type="com.brewble.pocketcpmplus.view.ProjectAddView.Model"/>
     </data>
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent" android:layout_height="match_parent"
         android:orientation="vertical"
         android:paddingStart="8dp"
         android:paddingEnd="8dp">
-        <TextView
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Name: "/>
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:text="@={model.name}"
-            android:layout_marginTop="8dp"/>
-        <TextView
+            android:layout_alignParentTop="true"
+            android:id="@+id/project_name"
+            android:layout_marginTop="16dp">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="@={model.name}"
+                android:hint="Project Name"
+                android:textColorHint="@color/colorAccent"
+                android:layout_marginTop="8dp"
+                android:inputType="text" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Start Date:"/>
-        <EditText
+            android:layout_marginTop="16dp"
+            android:id="@+id/title_holder"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal"
+            android:layout_below="@id/project_name">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Start Date"
+                android:textSize="18sp"/>
+        </LinearLayout>
+
+        <DatePicker
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:text="@={model.startDate}"
-            android:layout_marginTop="8dp"/>
+            android:layout_height="wrap_content"
+            android:id="@+id/date_picker"
+            android:calendarViewShown="false"
+            android:year="@={model.year}"
+            android:month="@={model.month}"
+            android:day="@={model.day}"
+            android:datePickerMode="spinner"
+            android:layout_below="@id/title_holder"/>
+
         <Button
             android:layout_marginTop="16dp"
-            android:layout_width="100dp"
-            android:layout_height="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
             android:text="Save"
             android:onClick="@{() -> eventHandler.onOk()}"
-            android:layout_gravity="center_horizontal"/>
+            android:layout_alignParentBottom="true"/>s
 
-    </LinearLayout>
+    </RelativeLayout>
 </layout>

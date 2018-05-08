@@ -4,6 +4,7 @@ import android.databinding.BaseObservable
 import android.databinding.Bindable
 import android.databinding.DataBindingUtil.inflate
 import android.graphics.Color
+import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,8 @@ import com.brewble.pocketcpmplus.BR
 import com.brewble.pocketcpmplus.R
 import com.brewble.pocketcpmplus.databinding.ProjectAddLayoutBinding
 import com.brewble.pocketcpmplus.model.project.Project
+import java.time.LocalDate
+import java.util.*
 
 /**
  * Created by ashkanabedian on 2018-03-03.
@@ -39,10 +42,20 @@ class ProjectAddView(inflater: LayoutInflater, listener: Listener) {
                 notifyPropertyChanged(BR.name)
             }
 
-        @Bindable var startDate: String = ""
+        @Bindable var day: Int = 0
             set(value) {
                 field = value
-                notifyPropertyChanged(BR.startDate)
+                notifyPropertyChanged(BR.day)
+            }
+        @Bindable var month: Int = 0
+            set(value) {
+                field = value
+                notifyPropertyChanged(BR.month)
+            }
+        @Bindable var year: Int = 0
+            set(value) {
+                field = value
+                notifyPropertyChanged(BR.year)
             }
     }
 
@@ -54,7 +67,7 @@ class ProjectAddView(inflater: LayoutInflater, listener: Listener) {
     class EventHandler(private val listener: Listener, private var model: Model){
         fun onOk(){
             Log.d("${this.javaClass.name}", "Project Add Selected")
-            listener.onOk(Project(model.startDate, model.name))
+            listener.onOk(Project("${model.year}:${model.month}:${model.day}", model.name))
         }
         fun onCancel(){
             listener.onCancel()
