@@ -10,7 +10,7 @@ data class Task(override val name: String, override val id: UUID = UUID.randomUU
     private var EF: Int=0
     private var LS: Int=0
     private var LF: Int=0
-    val mCPM= CPM(this)
+    val mCPM= CPM()
     private var duration: Int=0
     lateinit var  project: Project
     private var depends= ArrayList<Task>()

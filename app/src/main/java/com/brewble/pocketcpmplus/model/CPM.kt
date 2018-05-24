@@ -2,12 +2,12 @@ package com.brewble.pocketcpmplus.model
 
 import com.brewble.pocketcpmplus.model.task.Task
 
-class CPM(task:Task) {
+class CPM() {
     var ES: Int=0
     var LS: Int=0
     var LF: Int=0
     var EF: Int=0
-    var task: Task = task
+
 
     fun getLateFinish(task:Task):Int{
         if (task.getDepends().isEmpty()) {// if no successors then the late finish is the time of completion of project
